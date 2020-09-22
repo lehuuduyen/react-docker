@@ -6,7 +6,7 @@ orbs:
 jobs:
   build-and-push:
     environment:
-      DOCKER_IMAGE: test2/react-docker
+      DOCKER_IMAGE: duyenle/react-docker
     executor: docker/docker
     steps:
       - setup_remote_docker

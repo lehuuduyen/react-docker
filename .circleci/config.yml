@@ -1,12 +1,14 @@
-   #test
+# my config
 version: 2.1
 orbs:
   node: circleci/node@3.0.0
   docker: circleci/docker@1.4.0
+
 jobs:
   build-and-push:
     environment:
-      DOCKER_IMAGE: duyenle/react-docker
+      DOCKER_IMAGE: duyen/cicd/react-docker
+      DOCKER_TAG: latest
     executor: docker/docker
     steps:
       - setup_remote_docker
@@ -16,14 +18,25 @@ jobs:
           docker-password: DOCKER_PASSWORD
       - docker/build:
           image: $DOCKER_IMAGE
+          tag: $DOCKER_TAG
       - docker/push:
           digest-path: /tmp/digest.txt
           image: $DOCKER_IMAGE
+          tag: $DOCKER_TAG
       - run:
           command: |
             echo "Digest is: $(</tmp/digest.txt)"
+  # deploy:
+  #   executor: docker/docker
+  #   steps:
+  #     # Please add $SSH_KEY_FINGERPRINT, $DEPLOYED_USER@ and DEPLOYED_SERVER to project's environment
+  #     - add_ssh_keys:
+  #         fingerprints:
+  #           - $SSH_KEY_FINGERPRINT
+  #     - run: ssh -oStrictHostKeyChecking=no $DEPLOYED_USER@$DEPLOYED_SERVER './deploy.sh'
+
 workflows:
-  test-build-docker-cicd:
+  my-pipeline:
     jobs:
       - node/test
       - build-and-push:
@@ -33,3 +46,7 @@ workflows:
             branches:
               only:
                 - master
+      # uncomment the 3 following lines to enable deploying
+      # - deploy:
+      #     requires:
+      #       - build-and-push

@@ -1,6 +1,6 @@
-FROM stefanscherer/node-windows:latest as build
+FROM node:14-stretch-slim as build
 WORKDIR /app
 COPY . /app
 RUN npm install && npm run build
-FROM nginx:latest
+FROM nginx:stable-alpine
 COPY --from=build app/build /usr/share/nginx/html

@@ -29,10 +29,10 @@ workflows:
   test-build-docker-cicd:
     jobs:
       - node/test
-      - build-and-push  
+      - build-and-push:
+          requires:
+            - node/test
           filters:
-            requires:
-              - node/test
             branches:
               only:
                 - master

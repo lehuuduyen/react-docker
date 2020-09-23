@@ -4,7 +4,7 @@ orbs:
   node: circleci/node@3.0.0
   docker: circleci/docker@1.4.0
 jobs:
-  build-and-push:
+  build-docker:
     environment:
       DOCKER_IMAGE: duyen/cicd/react-docker
       DOCKER_TAG: latest
@@ -12,7 +12,6 @@ jobs:
     steps:
       - setup_remote_docker
       - checkout
-
       - docker/check:
           docker-username: DOCKER_USER
           docker-password: DOCKER_PASSWORD
@@ -20,10 +19,10 @@ jobs:
       - docker/build:
           image: $DOCKER_IMAGE
           tag: $DOCKER_TAG
-      - docker/push:
-          digest-path: /tmp/digest.txt
-          image: $DOCKER_IMAGE
-          tag: $DOCKER_TAG
+      # - docker/push:
+      #     digest-path: /tmp/digest.txt
+      #     image: $DOCKER_IMAGE
+      #     tag: $DOCKER_TAG
       - run:
           command: |
             echo "Digest is: $(</tmp/digest.txt)"
@@ -37,10 +36,10 @@ jobs:
   #     - run: ssh -oStrictHostKeyChecking=no $DEPLOYED_USER@$DEPLOYED_SERVER './deploy.sh'
 
 workflows:
-   build-and-publish-docker-image:
+   build-docker-image:
     jobs:
       - node/test
-      - build-and-push:
+      - build-docker:
           requires:
             - node/test
           filters:

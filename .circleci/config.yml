@@ -17,12 +17,10 @@ jobs:
             default: DOCKER_LOGIN
             description: |
               Name of environment variable storing your Docker username
-            type: env_var_name
           docker-password:
             default: DOCKER_PASSWORD
             description: |
               Name of environment variable storing your Docker password
-            type: env_var_name
       - docker/build:
           image: $DOCKER_IMAGE
           tag: $DOCKER_TAG

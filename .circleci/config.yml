@@ -4,7 +4,7 @@ orbs:
   node: circleci/node@3.0.0
   docker: circleci/docker@1.4.0
 jobs:
-  build-and-push:
+  build-and-publish-docker-image:
     environment:
       DOCKER_IMAGE: duyen/cicd/react-docker
       DOCKER_TAG: latest
@@ -44,7 +44,7 @@ workflows:
   build-and-publish-docker-image:
     jobs:
       - node/test
-      - build-and-push:
+      - build-and-publish-docker-image:
           requires:
             - node/test
           filters:

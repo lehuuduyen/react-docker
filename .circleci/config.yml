@@ -13,14 +13,8 @@ jobs:
       - setup_remote_docker
       - checkout
       - docker/check:
-          docker-username:
-            default: DOCKER_USER
-            description: |
-              Name of environment variable storing your Docker username
-          docker-password:
-            default: DOCKER_PASSWORD
-            description: |
-              Name of environment variable storing your Docker password
+          docker-username: DOCKER_USER
+          docker-password: DOCKER_PASSWORD
       - docker/build:
           image: $DOCKER_IMAGE
           tag: $DOCKER_TAG
@@ -41,7 +35,7 @@ jobs:
   #     - run: ssh -oStrictHostKeyChecking=no $DEPLOYED_USER@$DEPLOYED_SERVER './deploy.sh'
 
 workflows:
-  my-pipeline:
+   build-and-publish-docker-image:
     jobs:
       - node/test
       - build-and-push:

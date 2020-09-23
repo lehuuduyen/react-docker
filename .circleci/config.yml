@@ -14,7 +14,7 @@ jobs:
       - checkout
       - docker/check:
           docker-username:
-            default: DOCKER_LOGIN
+            default: DOCKER_USER
             description: |
               Name of environment variable storing your Docker username
           docker-password:
